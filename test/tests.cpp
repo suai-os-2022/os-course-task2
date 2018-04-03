@@ -72,7 +72,7 @@ TEST(lab2_tests, threadsync) {
     EXPECT_GE(outs.str().length(), solution_len*3) << "Output is too short.";
     EXPECT_LE(outs.str().length(), solution_len*5) << "Output is too long.";
     //
-    std::cout << outs.str() << std::endl;
+    std::cout << "Task " << lab2_task_number() << ": " << outs.str() << std::endl;
 //    std::cout << outs.str().length() << std::endl;
 //    std::cout << solution.size() << std::endl;
     int interval = 0;
