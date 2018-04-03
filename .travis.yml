@@ -23,5 +23,6 @@ script:
   - mkdir build
   - cd build
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
+  - cp ../test/task*.txt test
   - cd test
   - ./runTests
