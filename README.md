@@ -48,7 +48,7 @@ g++ lab2.cpp main.cpp -lpthread -o lab2
 ```
 cd test/gtest
 GTEST_DIR=$(pwd)
-g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} -pthread -c ${GTEST_DIR}/src/gtest-all.cc 
+g++ -isystem "${GTEST_DIR}"/include -I"${GTEST_DIR}" -pthread -c "${GTEST_DIR}"/src/gtest-all.cc 
 ar -rv libgtest.a gtest-all.o
 ```
 В консоли должен появиться текст
