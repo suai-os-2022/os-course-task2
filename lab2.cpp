@@ -5,9 +5,19 @@
 //
 
 
-unsigned int lab2_task_number() 
+unsigned int lab2_thread_graph_id() 
 {
     return 999;
+}
+
+const char* lab2_unsynchronized_threads()
+{
+    return "xyz";
+}
+
+const char* lab2_sequential_threads()
+{
+    return "rst,tuvw";
 }
 
 

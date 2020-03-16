@@ -15,8 +15,15 @@ const int sleep_time = 1;
 
 void sleep_ms(int milliseconds); // cross-platform sleep function
 
+void computation();
+
 int lab2_init();
 
-unsigned int lab2_task_number();
+unsigned int lab2_thread_graph_id();
+
+const char* lab2_unsynchronized_threads();
+
+const char* lab2_sequential_threads();
+
 
 #endif //LAB2_LAB2_H
