@@ -28,7 +28,6 @@ const char* lab2_sequential_threads()
     return "de";
 }
 
-void *thread_a(void *ptr);
 void *thread_b(void *ptr);
 void *thread_c(void *ptr);
 void *thread_d(void *ptr);
@@ -38,7 +37,9 @@ void *thread_e(void *ptr);
 void *thread_a(void *ptr)
 {
     for (int i = 0; i < 3; ++i) {
+        pthread_mutex_lock(&lock);
         std::cout << "a" << std::flush;
+        pthread_mutex_unlock(&lock);
         computation();
     }
     err = pthread_create(&tid[1], NULL, thread_b, NULL);
@@ -58,21 +59,25 @@ void *thread_a(void *ptr)
 void *thread_b(void *ptr)
 {
     for (int i = 0; i < 3; ++i) {
+        pthread_mutex_lock(&lock);
         std::cout << "b" << std::flush;
+        pthread_mutex_unlock(&lock);
         computation();
     }
-    return  ptr;
+    return ptr;
 }
 
 void *thread_c(void *ptr)
 {
     for (int i = 0; i < 3; ++i) {
+        pthread_mutex_lock(&lock);
         std::cout << "c" << std::flush;
+        pthread_mutex_unlock(&lock);
         computation();
     }
     // wait for thread B to finish
     pthread_join(tid[1], NULL);
-    return  ptr;
+    return ptr;
 }
 
 
@@ -80,7 +85,9 @@ void *thread_d(void *ptr)
 {
     // perform computations
     for (int i = 0; i < 3; ++i) {
+        pthread_mutex_lock(&lock);
         std::cout << "d" << std::flush;
+        pthread_mutex_unlock(&lock);
         computation();
     }
     // wait for thread C to finish
@@ -92,15 +99,15 @@ void *thread_d(void *ptr)
     // perform computations
     for (int i = 0; i < 3; ++i) {
         sem_wait(&semD);
-        //pthread_mutex_lock(&lock);
+        pthread_mutex_lock(&lock);
         std::cout << "d" << std::flush;
+        pthread_mutex_unlock(&lock);
         computation();
-        //pthread_mutex_unlock(&lock);
         sem_post(&semE);
     }
     // wait for thread E to finish
     pthread_join(tid[4], NULL);
-    return  ptr;
+    return ptr;
 }
 
 void *thread_e(void *ptr)
@@ -108,10 +115,10 @@ void *thread_e(void *ptr)
     // perform computations
     for (int i = 0; i < 3; ++i) {
         sem_wait(&semE);
-        //pthread_mutex_lock(&lock);
+        pthread_mutex_lock(&lock);
         std::cout << "e" << std::flush;
+        pthread_mutex_unlock(&lock);
         computation();
-        //pthread_mutex_unlock(&lock);
         sem_post(&semD);
     }
     return ptr;

@@ -88,6 +88,8 @@ std::vector< std::string > load_solution( int &solution_len )
     std::ostringstream filename;
     filename << "task" <<  lab2_thread_graph_id() << ".txt";
     std::ifstream solution_file (filename.str());
+    // ASSERT_TRUE( solution_file.is_open() ) << "Can't open solution file. Did you mess up with project files?";
+    // TODO: make this assert in a toplevel TEST by checking the solution_len variable
     if (!solution_file.is_open())
         solution_len = -1;
     else {
@@ -111,12 +113,15 @@ int get_thread_length(std::string str, std::vector< std::string > solution)
     int interval = 0, interval_length = -1;
     std::map <char, int> interval_stats;
     char c_cur = 0, c_prev = 0;
+    // bool is_parallel = (solution.at(interval).length() == 1);
     for (int i = 0; i < str.length(); ++i) {
         //
         if (isspace(str.at(i)))
             continue;
         c_prev = c_cur;
         c_cur = str.at(i);
+//        std::cout << i << ", " << std::flush;
+//        std::cout << c_cur <<", " << c_prev << ", " << interval << ", " << solution.at(interval) << ", " << is_parallel << std::endl;
         if (solution.at(interval).find(c_cur) != std::string::npos) {
             interval_stats[c_cur] += 1;
             continue;
@@ -184,6 +189,7 @@ bool is_permutation_str(std::string s1, std::string s2)
 
 std::string check_sequential(std::string output_str, std::vector< std::string > solution)
 {
+    // std::string output_str = outs.str();
     // load intervals that are expected to be sequential
     std::vector< std::string > intervals = split_intervals(lab2_sequential_threads());
     // iterate through all sequential intervals and search for each of them in the output
@@ -227,6 +233,7 @@ std::string check_sequential(std::string output_str, std::vector< std::string > 
 
 std::string check_unsynchronized(std::string output_str, std::vector< std::string > solution)
 {
+    // std::string output_str = outs.str();
     // load intervals that are expected to be sequential
     std::vector< std::string > intervals = split_intervals(lab2_unsynchronized_threads());
     // iterate through all unsynchronized intervals and search for each of them in the output
@@ -279,6 +286,7 @@ TEST(lab2_tests, tasknumber) {
 
 
 TEST(lab2_tests, unsynchronizedthreads) {
+    // string s = lab2_unsynchronized_threads();
     std::vector< std::string > intervals = split_intervals(lab2_unsynchronized_threads());
     for (std::vector< std::string >::iterator t=intervals.begin(); t!=intervals.end(); ++t)
     {
@@ -290,6 +298,7 @@ TEST(lab2_tests, unsynchronizedthreads) {
 
 
 TEST(lab2_tests, sequentialthreads) {
+    // string s = lab2_unsynchronized_threads();
     std::vector< std::string > intervals = split_intervals(lab2_sequential_threads());
     for (std::vector< std::string >::iterator t=intervals.begin(); t!=intervals.end(); ++t)
     {
@@ -305,6 +314,9 @@ TEST(lab2_tests, threadsync) {
     int solution_len = 0;
     solution = load_solution(solution_len);
     ASSERT_NE( solution_len, -1 ) << "Can't open solution file. Did you mess up with project files?";
+//    std::cout << solution_len << std::endl;
+
+//    std::cout << "Running tests for lab2 ..." << std::endl;
     std::stringstream outs;
     std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
     std::cout.rdbuf(outs.rdbuf()); //redirect std::cout to out.txt!
@@ -316,6 +328,8 @@ TEST(lab2_tests, threadsync) {
     EXPECT_LE(outs.str().length(), solution_len*5) << "Output is too long.";
     //
     std::cout << "Output for graph " << lab2_thread_graph_id() << " is: " << outs.str() << std::endl;
+//    std::cout << outs.str().length() << std::endl;
+//    std::cout << solution.size() << std::endl;
     std::vector< std::string > results = get_interval_contents(outs.str(), solution);
     std::stringstream ss;
     ss << "Intervals are:" << std::endl;
@@ -374,11 +388,13 @@ TEST(lab2_tests, concurrency) {
         n = lab2_init();
         std::cout.rdbuf(coutbuf); //reset to standard output again
 
+//        std::cout << outs.str() << " (" << outs.str().length() << ")" << std::endl;
         EXPECT_EQ(n, 0) << "If 'lab2_init()' succeeds, it should return 0. Did it fail?";
         if (i > 0) {
             EXPECT_EQ(outs.str().length(), outs_prev.length()) << "Concurrent execution of threads "
                                                                << "must not produce variable length "
-                                                               << "results.";
+                                                               << "results. Current output: " << outs.str()
+                                                               << "Previous output: " << outs_prev;
         }
         if (outs_prev.compare(outs.str()) != 0)
             is_random = true;
