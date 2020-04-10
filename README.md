@@ -141,7 +141,7 @@ void* thread_a_(void *ptr)
 | 18 |  2 | bcde | ikm |
 | 19 |  3 | defh | bcd |
 | 20 |  4 | bcde | efgh |
-| 21 |  5 | defg | ikm |
+| 21 |  5 | cdfg | ikm |
 | 22 |  6 | bcd | hik |
 | 23 |  7 | bcdg | dfgi |
 | 24 |  8 | bce | deg |
