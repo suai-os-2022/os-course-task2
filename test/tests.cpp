@@ -417,6 +417,7 @@ TEST(lab2_tests, concurrency) {
         // EXPECT_EQ(unsynchronized_err.length(), 0) << unsynchronized_err << std::endl << "Output is: " << outs.str();
         if (sequential_err.length() > 0 or unsynchronized_err.length() > 0)
             err_messages.push_back(err_ss.str());
+        // be verbose about what is going on
         if (i % 20 == 0)
             std::cout << "Completed " << i << " out of 100 runs." << std::endl;
     }
