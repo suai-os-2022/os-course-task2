@@ -128,7 +128,7 @@ void* thread_a_(void *ptr)
 |  6 | 10 | dghi | bcde |
 |  7 | 11 | bcde | deg |
 |  8 | 12 | defg | ghi |
-|  9 | 13 | cef | him |
+|  9 | 13 | cdef | him |
 | 10 | 14 | cde | pkm |
 | 11 | 15 | bcdgh | emn |
 | 12 | 16 | bcef | ehi |
