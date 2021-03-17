@@ -5,6 +5,10 @@ on:
     paths: 
       - lab2.cpp
       - .github/workflows/cmake.yml
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
